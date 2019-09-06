@@ -1,45 +1,83 @@
 import React, { Component } from 'react';
 
+import { Form, Icon, Input, Button, Row, Col } from 'antd';
+
+import { connect } from 'dva';
+
+import styles from './index.scss';
+
 class Login extends Component {
+  handleSubmit = e => {
+    // 1.阻止默认提交表单行为
+    e.preventDefault();
+    // 2.做表单校验，接收一个回调函数，回调函数接收两个参数，error，value
+    this.props.form.validateFields((err, values) => {
+      // console.log(err); // 表单校验规则不满足就会出现error
+      // console.log(values); // 表单input框的内容
+      if (!err) {
+        // 调用登录接口
+        this.props.onLogin(values, this.props.history);
+        //console.log('Received values of form: ', values);
+      }
+    });
+  };
+
   render() {
+    const { getFieldDecorator } = this.props.form;
     return (
-      <div className="container">
-        <div className="row justify-content-center">
-          <div className="col-md-5">
-            <div className="card my-5">
-              <div className="card-body">
-                <h1 className="my-5 display-4">Login</h1>
-
-                <div>
-                  <div className="form-group">
-                    <label htmlFor="username">用户名</label>
-                    <input
-                      type="text"
-                      className="form-control"
-                      name="username"
-                      placeholder="请输入用户名"
-                    />
-                  </div>
-
-                  <div className="form-group">
-                    <label htmlFor="password">密码</label>
-                    <input
-                      type="password"
-                      className="form-control"
-                      name="password"
-                      placeholder="请输入密码"
-                    />
-                  </div>
-
-                  <button className="btn btn-primary btn-block my-4">登录</button>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
+      <Row>
+        <Col span={6} offset={9}>
+          <Form onSubmit={this.handleSubmit} className={styles.login_form}>
+            <Form.Item>
+              {getFieldDecorator('username', {
+                // 表单校验的规则
+                rules: [{ required: true, message: 'Please input your username!' }],
+              })(
+                <Input
+                  prefix={<Icon type="user" style={{ color: 'rgba(0,0,0,.25)' }} />}
+                  placeholder="Username"
+                />,
+              )}
+            </Form.Item>
+            <Form.Item>
+              {getFieldDecorator('password', {
+                rules: [
+                  { required: true, message: 'Please input your Password!' },
+                  { min: 6, message: '密码长度不少于6位!' },
+                  { max: 12, message: '密码长度不能超过12位!' },
+                ],
+              })(
+                <Input
+                  prefix={<Icon type="lock" style={{ color: 'rgba(0,0,0,.25)' }} />}
+                  type="password"
+                  placeholder="Password"
+                />,
+              )}
+            </Form.Item>
+            <Form.Item>
+              <Button type="primary" htmlType="submit" className={styles.login_form_button}>
+                Log in
+              </Button>
+              Or <a href="">register now!</a>
+            </Form.Item>
+          </Form>
+        </Col>
+      </Row>
     );
   }
 }
 
-export default Login;
+export default connect(
+  null,
+  dispatch => {
+    return {
+      onLogin: (values, history) => {
+        dispatch({
+          type: 'global/loginSync',
+          payload: values,
+          history,
+        });
+      },
+    };
+  },
+)(Form.create(null)(Login));

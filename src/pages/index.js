@@ -1,5 +1,6 @@
 /**
  * Routes:
+ *  - ./src/routes/PrivateRoute.js
  *  - ./src/layouts/SimpleLayout.js
  */
 

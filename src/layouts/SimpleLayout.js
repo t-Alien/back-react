@@ -8,7 +8,7 @@ import { Layout, Menu, Icon } from 'antd';
 
 import styles from './SimpleLayout.scss';
 
-import Link from 'umi/link';
+import TbMenu from './components/TbMenu';
 
 const { Header, Sider, Content } = Layout;
 
@@ -25,28 +25,35 @@ class SimpleLayout extends React.Component {
 
   render() {
     //console.log(this.props);
+
+    // // 最先开始就做登录判断  (在父级上已经做了操作)
+    // if (!this.props.user) {
+    //   // 直接去登录页面
+    //   this.props.history.replace('/login');
+    //   return null;
+    // }
+
+    // 当前用户的角色集合
+    // const userRoles = this.props.user && this.props.user.roles;
+    // // 获取当前用户的 menus 对仓库中的 menus 数据根据当前用户的角色做过滤
+    // const userMenus = this.props.menus.filter(menu => {
+    //   // 1.拿出 user.roles，判断是否有 admin 在里面
+    //   // 如果有的话，不做处理
+    //   // 如果没有的话，过滤掉 用户管理 菜单
+    //   if (userRoles.includes('admin')) {
+    //     return true;
+    //   } else {
+    //     return menu.name !== '用户管理';
+    //   }
+    // });
+
     return (
+      // 登录状态判断
+      // this.props.user ? (
       <Layout className={styles.normal}>
         <Sider trigger={null} collapsible collapsed={this.state.collapsed}>
           <div className={styles.logo} />
-          <Menu theme="dark" mode="inline">
-            {/* 根据当前的url地址，判断是否与要链接的地址相同，如果相同，给Menu.Item加上高亮类
-                1.获取当前的url地址props.match.path
-            */}
-            {this.props.menus.map(item => {
-              return (
-                <Menu.Item
-                  key={item.id}
-                  className={this.props.match.path === item.href ? 'ant-menu-item-selected' : ''}
-                >
-                  <Link to={item.href}>
-                    <Icon type={item.icon} />
-                    <span>{item.name}</span>
-                  </Link>
-                </Menu.Item>
-              );
-            })}
-          </Menu>
+          <TbMenu match={this.props.match} />
         </Sider>
         <Layout>
           <Header style={{ background: '#fff', padding: 0 }}>
@@ -68,6 +75,9 @@ class SimpleLayout extends React.Component {
           </Content>
         </Layout>
       </Layout>
+      // ) : (
+      //   <Redirect to="/login" />
+      // )
     );
   }
 }
@@ -75,5 +85,6 @@ class SimpleLayout extends React.Component {
 export default connect(({ global }) => {
   return {
     menus: global.menus,
+    user: global.user,
   };
 })(SimpleLayout);

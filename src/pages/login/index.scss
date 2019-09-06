@@ -1,0 +1,15 @@
+// 注意点：css-module 的类名不能使用短横线，需要使用下划线_
+
+.login_form {
+  margin: 100px auto;
+  max-width: 300px;
+  padding: 40px;
+  border: 1px solid #ccc;
+  background: greenyellow;
+}
+.login_form_forgot {
+  float: right;
+}
+.login_form_button {
+  width: 100%;
+}
