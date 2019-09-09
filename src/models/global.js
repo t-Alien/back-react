@@ -15,7 +15,7 @@ export default {
     menus: [
       { id: 1, icon: 'video-camera', name: 'Welcome', href: '/', roles: '' },
       { id: 2, icon: 'user', name: '用户管理', href: '/user/manage', roles: 'admin' },
-      { id: 3, icon: 'user', name: '文章管理', href: '/post/manage', roles: 'admin' },
+      { id: 3, icon: 'user', name: '个人中心', href: '/center/manage', roles: '' },
     ],
 
     // 当前登录的用户个人信息
@@ -33,9 +33,32 @@ export default {
         },
       };
     },
+    registry(state, action) {
+      return {
+        ...state,
+        ...{
+          user: action.user,
+        },
+      };
+    },
   },
 
   effects: {
+    *registrySync(action, { put }) {
+      // 1.发送ajax请求
+      yield request.post('/api/v1/signup', action.payload);
+      // 2.输出注册成功
+      message.success('注册成功');
+      // 3. 调用 registry 这个reducer
+      yield put({
+        type: 'registry',
+        user: action.username,
+      });
+      // 4. 跳转页面到登录页 (这里是js代码，采用编程式导航跳转)
+      //console.log(action.history);
+      action.history.replace('/login');
+    },
+    
     *loginSync(action, { put }) {
       // 1.发送ajax请求
       const result = yield request.post('/api/v1/auth', action.payload);

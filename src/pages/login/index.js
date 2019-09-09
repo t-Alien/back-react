@@ -4,6 +4,8 @@ import { Form, Icon, Input, Button, Row, Col } from 'antd';
 
 import { connect } from 'dva';
 
+import Link from 'umi/link';
+
 import styles from './index.scss';
 
 class Login extends Component {
@@ -58,7 +60,7 @@ class Login extends Component {
               <Button type="primary" htmlType="submit" className={styles.login_form_button}>
                 Log in
               </Button>
-              Or <a href="">register now!</a>
+              Or <Link to="/registry">register now!</Link>
             </Form.Item>
           </Form>
         </Col>
