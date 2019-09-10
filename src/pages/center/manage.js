@@ -8,6 +8,7 @@ import React, { Component } from 'react';
 import { Avatar, Input, Radio, Button } from 'antd';
 import styles from './manage.scss';
 import { connect } from 'dva';
+import Redirect from 'umi/redirect';
 
 const UserList = ['U', 'Lucy', 'Tom', 'Edward'];
 const colorList = ['#f56a00', '#7265e6', '#ffbf00', '#00a2ae'];
@@ -16,8 +17,8 @@ class CenterManage extends Component {
   constructor() {
     super();
     this.state = {
-      value: 1,
-      Val: '铁憨憨',
+      value: 2,
+      val: '佛系桔宝兔',
       email: '123@qq.com',
       user: UserList[0],
       color: colorList[0],
@@ -29,6 +30,12 @@ class CenterManage extends Component {
       user: index < UserList.length - 1 ? UserList[index + 1] : UserList[0],
       color: index < colorList.length - 1 ? colorList[index + 1] : colorList[0],
     });
+  };
+  changeLogin = () => {
+    window.sessionStorage.removeItem('user');
+    this.props.history.replace('/login');
+    window.location.reload();
+    // <Redirect to="/login" />;
   };
 
   onChange = e => {
@@ -79,7 +86,7 @@ class CenterManage extends Component {
           <label>
             <span>昵&nbsp;&nbsp;&nbsp;称</span>&nbsp;&nbsp;
             <Input
-              defaultValue={this.state.Val}
+              defaultValue={this.state.val}
               placeholder="default size"
               className={styles.ant_input}
             />
@@ -108,6 +115,14 @@ class CenterManage extends Component {
             <Input.TextArea placeholder="请输入内容" autosize={{ minRows: 4, maxRows: 10 }} />
           </label>
         </p>
+        <Button
+          onClick={this.changeLogin}
+          className={styles.person_btn}
+          size="default"
+          type="primary"
+        >
+          退出登录
+        </Button>
       </div>
     );
   }

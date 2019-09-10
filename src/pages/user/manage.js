@@ -5,48 +5,58 @@
  */
 
 import React, { Component } from 'react';
-import { Table } from 'antd';
 import { connect } from 'dva';
-
-const columns = [
-  {
-    title: '用户ID',
-    dataIndex: 'id',
-  },
-  {
-    title: '用户名',
-    dataIndex: 'username',
-  },
-  {
-    title: '用户邮箱',
-    dataIndex: 'email',
-  },
-  {
-    title: '创建时间',
-    dataIndex: 'created_at',
-  },
-];
+import { Table, Popconfirm } from 'antd';
+import SearchIpt from '../../layouts/components/SearchIpt';
 
 class UserManage extends Component {
+  constructor() {
+    super();
+    this.state = {
+      columns: [
+        { title: '用户Id', dataIndex: 'id' },
+        { title: '用户名', dataIndex: 'username' },
+        { title: '用户邮箱', dataIndex: 'email' },
+        { title: '创建时间', dataIndex: 'created_at' },
+        {
+          title: '操作',
+          dataIndex: 'action',
+          render: (text, record) => (
+            <span>
+                       
+              <Popconfirm title="确定删除?" onConfirm={() => this.props.handleDelete(record.id)}>
+                <a>删除</a>   
+              </Popconfirm>
+                     
+            </span>
+          ),
+        },
+      ],
+    };
+  }
+
   render() {
     return (
       <div>
-        <h1>用户管理页面信息-女装大佬</h1>
+         <h1>用户管理页面</h1> <SearchIpt></SearchIpt>
         <Table
+          rowKey="id"
+          columns={this.state.columns}
+          dataSource={this.props.userList}
           pagination={{
-            position: 'top',
+            position: 'bottom',
             total: this.props.total,
             onChange: this.props.getUserList,
           }}
-          rowKey="id"
-          dataSource={this.props.userList}
-          columns={columns}
-        />
+        >
+                  
+        </Table>
+              
       </div>
     );
   }
+
   componentDidMount() {
-    // 请求用户数据
     this.props.getUserList();
   }
 }
@@ -61,30 +71,23 @@ export default connect(
   dispatch => {
     return {
       /**
-       * 获取用户列表和分页切换
-       * @param {Number} page  页码
-       * @param {Number} pageSize 每页显示的条数
+       * 获取用户列表或分页切换时
+       * @param {Number} page 页码
+       * @param {Number} pageSize 每页显示的条数
        */
-      getUserList: (page, pageSize) => {
+      getUserList(page, pageSize) {
         dispatch({
           type: 'userManage/getUserList',
           page,
           pageSize,
         });
       },
-
-      /**
-       * 页面发生变化的时候触发
-       */
-      // onChange(page, pageSize) {
-      //   console.log(page);
-      //   console.log(pageSize);
-      //   dispatch({
-      //     type: 'userManage/getUserList',
-      //     page,
-      //     pageSize,
-      //   });
-      // },
+      handleDelete(val) {
+        dispatch({
+          type: 'userManage/deluserList',
+          value: val,
+        });
+      },
     };
   },
 )(UserManage);

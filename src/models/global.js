@@ -15,7 +15,8 @@ export default {
     menus: [
       { id: 1, icon: 'windows', name: 'Welcome', href: '/', roles: '' },
       { id: 2, icon: 'usergroup-add', name: '用户管理', href: '/user/manage', roles: 'admin' },
-      { id: 3, icon: 'user', name: '个人中心', href: '/center/manage', roles: '' },
+      { id: 3, icon: 'bar-chart', name: '自定义字典', href: '/port/manage', role: '' },
+      { id: 4, icon: 'user', name: '个人中心', href: '/center/manage', roles: '' },
     ],
 
     // 当前登录的用户个人信息
@@ -58,7 +59,7 @@ export default {
       //console.log(action.history);
       action.history.replace('/login');
     },
-    
+
     *loginSync(action, { put }) {
       // 1.发送ajax请求
       const result = yield request.post('/api/v1/auth', action.payload);

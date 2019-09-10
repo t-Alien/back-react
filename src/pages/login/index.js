@@ -1,10 +1,12 @@
-import React, { Component } from 'react';
+import React, { Component, Fragment } from 'react';
 
 import { Form, Icon, Input, Button, Row, Col } from 'antd';
 
 import { connect } from 'dva';
 
 import Link from 'umi/link';
+
+import BackGround from '../../layouts/components/BackGround/index';
 
 import styles from './index.scss';
 
@@ -27,44 +29,47 @@ class Login extends Component {
   render() {
     const { getFieldDecorator } = this.props.form;
     return (
-      <Row>
-        <Col span={6} offset={9}>
-          <Form onSubmit={this.handleSubmit} className={styles.login_form}>
-            <Form.Item>
-              {getFieldDecorator('username', {
-                // 表单校验的规则
-                rules: [{ required: true, message: 'Please input your username!' }],
-              })(
-                <Input
-                  prefix={<Icon type="user" style={{ color: 'rgba(0,0,0,.25)' }} />}
-                  placeholder="Username"
-                />,
-              )}
-            </Form.Item>
-            <Form.Item>
-              {getFieldDecorator('password', {
-                rules: [
-                  { required: true, message: 'Please input your Password!' },
-                  { min: 6, message: '密码长度不少于6位!' },
-                  { max: 12, message: '密码长度不能超过12位!' },
-                ],
-              })(
-                <Input
-                  prefix={<Icon type="lock" style={{ color: 'rgba(0,0,0,.25)' }} />}
-                  type="password"
-                  placeholder="Password"
-                />,
-              )}
-            </Form.Item>
-            <Form.Item>
-              <Button type="primary" htmlType="submit" className={styles.login_form_button}>
-                Log in
-              </Button>
-              Or <Link to="/registry">register now!</Link>
-            </Form.Item>
-          </Form>
-        </Col>
-      </Row>
+      <Fragment>
+        <BackGround />
+        <Row>
+          <Col span={6} offset={9}>
+            <Form onSubmit={this.handleSubmit} className={styles.login_form}>
+              <Form.Item>
+                {getFieldDecorator('username', {
+                  // 表单校验的规则
+                  rules: [{ required: true, message: 'Please input your username!' }],
+                })(
+                  <Input
+                    prefix={<Icon type="user" style={{ color: 'rgba(0,0,0,.25)' }} />}
+                    placeholder="Username"
+                  />,
+                )}
+              </Form.Item>
+              <Form.Item>
+                {getFieldDecorator('password', {
+                  rules: [
+                    { required: true, message: 'Please input your Password!' },
+                    { min: 6, message: '密码长度不少于6位!' },
+                    { max: 12, message: '密码长度不能超过12位!' },
+                  ],
+                })(
+                  <Input
+                    prefix={<Icon type="lock" style={{ color: 'rgba(0,0,0,.25)' }} />}
+                    type="password"
+                    placeholder="Password"
+                  />,
+                )}
+              </Form.Item>
+              <Form.Item>
+                <Button type="primary" htmlType="submit" className={styles.login_form_button}>
+                  Log in
+                </Button>
+                Or <Link to="/registry">register now!</Link>
+              </Form.Item>
+            </Form>
+          </Col>
+        </Row>
+      </Fragment>
     );
   }
 }
