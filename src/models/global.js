@@ -13,8 +13,8 @@ export default {
   state: {
     //菜单集合
     menus: [
-      { id: 1, icon: 'video-camera', name: 'Welcome', href: '/', roles: '' },
-      { id: 2, icon: 'user', name: '用户管理', href: '/user/manage', roles: 'admin' },
+      { id: 1, icon: 'windows', name: 'Welcome', href: '/', roles: '' },
+      { id: 2, icon: 'usergroup-add', name: '用户管理', href: '/user/manage', roles: 'admin' },
       { id: 3, icon: 'user', name: '个人中心', href: '/center/manage', roles: '' },
     ],
 
