@@ -17,6 +17,7 @@ export default {
       { id: 2, icon: 'usergroup-add', name: '用户管理', href: '/user/manage', roles: 'admin' },
       { id: 3, icon: 'bar-chart', name: '自定义字典', href: '/port/manage', role: '' },
       { id: 4, icon: 'user', name: '个人中心', href: '/center/manage', roles: '' },
+      { id: 5, icon: 'star', name: '评论情况', href: '/comment/comment', role: '' },
     ],
 
     // 当前登录的用户个人信息

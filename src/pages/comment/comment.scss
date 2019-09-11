@@ -1,0 +1,22 @@
+.comment_list_title {
+  width: 700px;
+  font-size: 30px;
+  color: #ff4a16;
+  height: 59px;
+  border-bottom: 1px solid #cccccc;
+}
+.comment_list_content {
+  width: 100%;
+  border: 1px solid #ff4a16;
+  min-height: 20px;
+  max-height: 419px;
+  overflow-y: auto;
+  padding: 10px 0;
+  box-sizing: border-box;
+}
+.no_comment_list {
+  color: #ff4a16;
+}
+.comment_title {
+  font-size: 30px;
+}
